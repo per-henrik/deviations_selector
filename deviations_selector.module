@@ -1,0 +1,86 @@
+<?php
+/**
+ * Implements hook_block_info().
+ */
+function deviations_selector_block_info() {
+  $blocks['selector1'] = array('info' => t('Deviation Selector 1'),);
+  $blocks['selector2'] = array('info' => t('Deviation Selector 2'),);
+  $blocks['selector3'] = array('info' => t('Deviation Selector 3'),);
+  $blocks['selector4'] = array('info' => t('Deviation Selector 4'),);
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function deviations_selector_block_view($delta='') {
+  $block = array();
+  
+  switch($delta) {
+    case 'selector1' :
+      $terms = taxonomy_get_tree(1,0,1);
+      $block['content'].='<ul class="selector1">';
+      foreach ($terms as $i => $term){
+        $block['content'] .= _deviations_selector_display_term(
+          $term->tid, 
+          $term->name, 
+          $i, 0);
+/*
+        $alternatingstyle =! $alternatingsyle;
+        $class = _deviations_selector_alternatingstyle($i);
+        $count = count(taxonomy_get_children($term->tid));
+        if (arg(1)==$term->tid) $class .= " selected ";
+        $block['content'].='<li class="' . $class . '">';
+        if ($count>0) {
+          $block['content'].='<a href="/'.arg(0).'/'.$term->tid.'/">';
+          $block['content'].=$term->name;
+          $block['content'].=' ('.$count.')';
+          $block['content'].='</a>';
+        } else {
+          $block['content'].='<a href="/'.arg(0).'/'.$term->tid.'/">';
+          $block['content'].=$term->name;
+          $block['content'].='</a>';
+        }
+*/
+      }
+      $block['content'].='</ul>';
+      break;
+    case 'selector2' :
+      $terms = taxonomy_get_tree(1,arg(1),1);
+      $alternatingstyle = array('odd', 'even');
+      foreach ($terms as $i => $term){
+        $alternatingstyle =! $alternatingsyle;
+        $class = _deviations_selector_alternatingstyle($i);
+#        $block['content'] .= $term->name.$class.$i."</br>";
+      }
+      break;
+  }
+  
+  return $block;
+}
+
+function _deviations_selector_display_term($tid, $name, $i, $level) {
+  $class = _deviations_selector_alternatingstyle($i);
+  $count = count(taxonomy_get_children($tid));
+  if (arg($level+1)==$tid) $class .= " selected ";
+  $ret.='<li class="' . $class . '">';
+  if ($count>0) {
+    $ret.='<a href="/'.arg($level).'/'.$tid.'/">';
+    $ret.=$name;
+    $ret.=' ('.$count.')';
+    $ret.='</a>';
+  } else {
+    $ret.='<a href="/'.arg($level).'/'.$tid.'/">';
+    $ret.=$name;
+    $ret.='</a>';
+  }
+  return $ret;
+}
+
+function _deviations_selector_alternatingstyle($i){
+  if ( $i & 1 ) {
+    return 'odd';
+  } else {
+    return 'even';
+  }
+}
