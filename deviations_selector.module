@@ -25,23 +25,6 @@ function deviations_selector_block_view($delta='') {
           $term->tid, 
           $term->name, 
           $i, 0);
-/*
-        $alternatingstyle =! $alternatingsyle;
-        $class = _deviations_selector_alternatingstyle($i);
-        $count = count(taxonomy_get_children($term->tid));
-        if (arg(1)==$term->tid) $class .= " selected ";
-        $block['content'].='<li class="' . $class . '">';
-        if ($count>0) {
-          $block['content'].='<a href="/'.arg(0).'/'.$term->tid.'/">';
-          $block['content'].=$term->name;
-          $block['content'].=' ('.$count.')';
-          $block['content'].='</a>';
-        } else {
-          $block['content'].='<a href="/'.arg(0).'/'.$term->tid.'/">';
-          $block['content'].=$term->name;
-          $block['content'].='</a>';
-        }
-*/
       }
       $block['content'].='</ul>';
       break;
