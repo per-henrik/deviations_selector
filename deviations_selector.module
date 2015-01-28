@@ -24,21 +24,24 @@ function deviations_selector_block_view($delta='') {
         $block['content'] .= _deviations_selector_display_term(
           $term->tid, 
           $term->name, 
-          $i, 0);
+          $i, 
+          0);
       }
       $block['content'].='</ul>';
       break;
     case 'selector2' :
       $terms = taxonomy_get_tree(1,arg(1),1);
-      $alternatingstyle = array('odd', 'even');
+      $block['content'].='<ul class="selector2">';
       foreach ($terms as $i => $term){
-        $alternatingstyle =! $alternatingsyle;
-        $class = _deviations_selector_alternatingstyle($i);
-#        $block['content'] .= $term->name.$class.$i."</br>";
+        $block['content'] .= _deviations_selector_display_term(
+          $term->tid, 
+          $term->name, 
+          $i, 
+          1);
       }
+      $block['content'].='</ul>';
       break;
   }
-  
   return $block;
 }
 
@@ -48,15 +51,25 @@ function _deviations_selector_display_term($tid, $name, $i, $level) {
   if (arg($level+1)==$tid) $class .= " selected ";
   $ret.='<li class="' . $class . '">';
   if ($count>0) {
-    $ret.='<a href="/'.arg($level).'/'.$tid.'/">';
+    $ret.=_deviations_selector_make_link($level,$tid);
     $ret.=$name;
     $ret.=' ('.$count.')';
     $ret.='</a>';
   } else {
-    $ret.='<a href="/'.arg($level).'/'.$tid.'/">';
+    $ret.=_deviations_selector_make_link($level,$tid);
     $ret.=$name;
     $ret.='</a>';
   }
+  return $ret;
+}
+
+function _deviations_selector_make_link ($level,$tid) {
+  $link.=arg(0).'/';
+  for($i=0; $i<$level; $i++) {
+    $link.=arg($i+1).'/';
+    drupal_set_message($i);
+  }
+  $ret.='<a href="/'.$link.$tid.'/">';
   return $ret;
 }
 
