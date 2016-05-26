@@ -19,7 +19,7 @@ function deviations_selector_block_view($delta='') {
   switch($delta) {
     case 'selector1' :
       $terms = taxonomy_get_tree(1,0,1);
-      $block['content'] .= '<div id="selector1">';
+      $block['content'] .= '<div id="selector1" class="selector">';
       $block['content'].='<ul class="selector1">';
       foreach ($terms as $i => $term){
         $block['content'] .= _deviations_selector_display_term(
@@ -33,7 +33,7 @@ function deviations_selector_block_view($delta='') {
       break;
     case 'selector2' :
       $terms = taxonomy_get_tree(1,arg(1),1);
-      $block['content'] .= '<div id="selector2">';
+      $block['content'] .= '<div id="selector2" class="selector">';
       $block['content'].='<ul class="selector2">';
       foreach ($terms as $i => $term){
         $block['content'] .= _deviations_selector_display_term(
@@ -47,7 +47,7 @@ function deviations_selector_block_view($delta='') {
       break;
     case 'selector3' :
       $terms = taxonomy_get_tree(1,arg(2),1);
-      $block['content'] .= '<div id="selector3">';
+      $block['content'] .= '<div id="selector3" class="selector">';
       $block['content'].='<ul class="selector3">';
       foreach ($terms as $i => $term){
         $block['content'] .= _deviations_selector_display_term(
@@ -61,7 +61,7 @@ function deviations_selector_block_view($delta='') {
       break;
     case 'selector4' :
       $terms = taxonomy_get_tree(1,arg(3),1);
-      $block['content'] .= '<div id="selector4">';
+      $block['content'] .= '<div id="selector4" class="selector">';
       $block['content'].='<ul class="selector4">';
       foreach ($terms as $i => $term){
         $block['content'] .= _deviations_selector_display_term(
@@ -79,11 +79,18 @@ function deviations_selector_block_view($delta='') {
       $term = taxonomy_term_load($last_arg);
       $count = count(taxonomy_get_children($last_arg));
       if ($count>0) {
-        $block['content'] .= '<div id="selector_info">';
-        $block['content'] .= 'Please select a location to report a deviation. You also need to make sure location at the lowest possible detail level.';
+        $block['content'] .= '<div id="selector_info" class="selector">';
+        $block['content'] .= 'Please select a location '.$imgurl.' to report a deviation. You also need to make sure location at the lowest possible detail level.';
         $block['content'] .= '</div>';
       } else {
-        $block ['content'] .= '<a href="/node/add/article?edit[field_tags][und]='.$term->tid.'">Add decation to '.$term->name.'</a>';
+        $module_name = basename(__FILE__, '.module');
+        $imgurl = '/'.drupal_get_path('module',$module_name).'/botton.png';
+        $title  = 'Add deviations to '.$term->name;
+        $addurl = '/node/add/article?edit[field_tags][und]='.$term->tid;
+        $block ['content'] .= '<a href="'.$addurl.'">';
+        $block ['content'] .= '<img title="'.$title.'" src="'.$imgurl.'">';
+        $block ['content'] .= '</a>';
+        
       }
       break;
   } #[field][tags][und]-0-tid
@@ -98,7 +105,7 @@ function _deviations_selector_display_term($tid, $name, $i, $level) {
   if ($count>0) {
     $ret.=_deviations_selector_make_link($level,$tid);
     $ret.=$name;
-    $ret.=' ('.$count.')';
+#    $ret.=' ('.$count.')';
     $ret.='</a>';
   } else {
     $ret.=_deviations_selector_make_link($level,$tid);

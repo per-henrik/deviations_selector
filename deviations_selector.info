@@ -1,3 +1,5 @@
 name = Deviations Selector
-description = A description shall emerge! (on day)
+description = A description shall emerge! (one day)
 core = 7.x
+stylesheets[all][] = deviations_selector.css
+package = Deviations
