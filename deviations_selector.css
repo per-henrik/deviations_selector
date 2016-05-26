@@ -1,0 +1,41 @@
+.page-location .selector {
+  float:left;
+  width:20%;
+}
+.page-location .l-main{
+  min-height:25em;
+}
+
+.page-location .selector a {
+  color:inherit;
+  text-decoration:none;
+}
+
+.page-location .selector li {
+  display:block;
+  margin:0 5%;
+  border-bottom:solid 1px #cc9;
+  min-height:2.5em;
+  line-height:2.5em;
+  padding:0.2em;
+}
+.page-location .selector li a{
+  position:relative;
+  left:20px;
+}
+.page-location .selector li:last-child {
+  border-bottom:none;
+}
+
+.page-location .selector ul {
+  padding:0;
+  margin:0;
+}
+
+.page-location .selector .selected {
+  background-color:#cc9;
+}
+.page-location .selector .selected a{
+  color:white;
+  font-weight:bold;
+}
